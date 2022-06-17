@@ -1,0 +1,78 @@
+enum VestingType {
+	natural_time_linear_vesting,
+	time_cliff_vesting
+}
+
+type Vesting @entity {
+	id: ID!
+	type: VestingType!
+	beneficiary: String!
+	start_time: BigInt
+	end_time: BigInt
+	time_cliff_list: String
+	is_frozen: Boolean!
+	is_terminated: Boolean!
+	token_id: String!
+	claimed_token_amount: String!
+    total_vesting_amount: String!,
+}
+
+enum ActionType {
+	create_vesting,
+	freeze_vesting,
+	unfreeze_vesting,
+	terminate_vesting,
+	change_beneficiary,
+	claim
+}
+
+type UserAction @entity {
+	id: ID!
+	predecessor_id: String!
+	timestamp: String!
+	action_type: ActionType!
+	receipt_id: String!
+	vesting_id: String!
+
+	create_vesting: CreateVesting
+	freeze_vesting: FreezeVesting,
+	unfreeze_vesting: UnfreezeVesting,
+	terminate_vesting: TerminateVesting,
+	change_beneficiary: ChangeBeneficiary,
+	claim: Claim
+}
+
+type CreateVesting @entity {
+	id: ID!
+	vesting_id: String!
+}
+
+type FreezeVesting @entity {
+	id: ID!
+	vesting_id: String!
+}
+
+type UnfreezeVesting @entity {
+	id: ID!
+	vesting_id: String!
+}
+
+type TerminateVesting @entity {
+	id: ID!
+	vesting_id: String!
+}
+
+type ChangeBeneficiary @entity {
+	id: ID!
+	vesting_id: String!
+	old_beneficiary: String!
+	new_beneficiary: String!
+}
+
+type Claim @entity {
+	id: ID!
+	vesting_id: String!
+	beneficiary: String!
+	token_id: String!
+	amount: String!
+}
