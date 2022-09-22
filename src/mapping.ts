@@ -1,13 +1,13 @@
 import {near, BigInt, log, JSONValue, json, Bytes, store} from "@graphprotocol/graph-ts";
 import { handleVestingEvent } from "./vesting_event";
 import { JSON } from "assemblyscript-json";
-import {handleUserAction} from "./user_action";
+import {handleActionStatus, handleUserAction} from "./user_action";
 
 export function handleReceipt(receipt: near.ReceiptWithOutcome): void {
 	let actions = receipt.receipt.actions;
-    let signerId = receipt.receipt.signerId.toString();
-    let contractId = receipt.receipt.predecessorId.toString();
-    let receiverId = receipt.receipt.receiverId.toString();
+    // let signerId = receipt.receipt.signerId.toString();
+    // let contractId = receipt.receipt.predecessorId.toString();
+    // let receiverId = receipt.receipt.receiverId.toString();
 
     for (let i = 0; i < actions.length; i++) {
         let action = actions[i];
@@ -46,6 +46,14 @@ function handleFunctionCall(functionCall: near.FunctionCallAction, receipt: near
                     i
                 )
 			}
+
+            if(jsonObject.get("action_status")) {
+                handleActionStatus(
+                    jsonObject.getString("action_status")!.valueOf(),
+                    jsonObject.getObj("data")!,
+                    receipt
+                )
+            }
         }
     }
     log.info("end handleFunctionCall", []);

@@ -12,9 +12,17 @@ type Vesting @entity {
 	time_cliff_list: String
 	is_frozen: Boolean!
 	is_terminated: Boolean!
+	is_finish: Boolean!
 	token_id: String!
 	claimed_token_amount: String!
     total_vesting_amount: String!,
+	create_time: BigInt
+}
+
+
+type FtTransferResult @entity {
+	id: ID!
+	is_success: Boolean!
 }
 
 enum ActionType {
@@ -23,7 +31,9 @@ enum ActionType {
 	unfreeze_vesting,
 	terminate_vesting,
 	change_beneficiary,
-	claim
+	claim,
+	claim_all,
+	legacy
 }
 
 type UserAction @entity {
@@ -32,14 +42,16 @@ type UserAction @entity {
 	timestamp: String!
 	action_type: ActionType!
 	receipt_id: String!
-	vesting_id: String!
+	vesting_id: String
 
 	create_vesting: CreateVesting
 	freeze_vesting: FreezeVesting,
 	unfreeze_vesting: UnfreezeVesting,
 	terminate_vesting: TerminateVesting,
 	change_beneficiary: ChangeBeneficiary,
-	claim: Claim
+	claim: Claim,
+	claim_all: ClaimAll,
+	legacy: Legacy,
 }
 
 type CreateVesting @entity {
@@ -71,8 +83,27 @@ type ChangeBeneficiary @entity {
 
 type Claim @entity {
 	id: ID!
+	transfer_id: String!
 	vesting_id: String!
 	beneficiary: String!
 	token_id: String!
+	amount: String!
+	ft_transfer_result: FtTransferResult!
+}
+
+type ClaimAll @entity {
+	id: ID!
+	transfer_id: String!
+	vesting_ids: [String!]!
+	beneficiary: String!
+	token_id: String!
+	amount: String!
+	ft_transfer_result: FtTransferResult!
+}
+
+type Legacy @entity {
+	id: ID!
+	account_id: String!,
+	token_id: String!,
 	amount: String!
 }
