@@ -1,15 +1,15 @@
 specVersion: 0.0.4
 description: Good Morning NEAR
-repository: https://github.com/graphprotocol/example-subgraph/tree/near-receipts-example
+repository: https://github.com/octopus-network/nep141-token-vesting-subgraph
 schema:
   file: ./schema.graphql
 dataSources:
   - kind: near
     name: receipts
-    network: near-testnet
+    network: near-mainnet
     source:
-      account: "contract.octvesting.testnet"
-      startBlock: 100091694
+      account: "octopus-oct-vesting.near"
+      startBlock: 77007756
     mapping:
       apiVersion: 0.0.5
       language: wasm/assemblyscript
