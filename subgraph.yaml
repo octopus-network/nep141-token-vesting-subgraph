@@ -6,12 +6,12 @@ schema:
 dataSources:
   - kind: near
     name: receipts
-    network: near-mainnet
+    network: near-testnet
     source:
-      account: "octopus-oct-vesting.near"
-      startBlock: 77007756
+      account: "contract1.ottovesting.testnet"
+      startBlock: 159525963
     mapping:
-      apiVersion: 0.0.5
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       file: ./src/mapping.ts
       entities:

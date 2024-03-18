@@ -53,6 +53,8 @@ export function vestingFromJSON(vesting_obj: JSON.Obj, token_id: string | null):
 	let vesting =  Vesting.load(id);
 	if(!vesting) {
 		vesting = new Vesting(id);
+		vesting.is_terminated = false
+		vesting.is_finish = false
 	}
 	vesting.type= vesting_obj.getString("vesting_type")!.valueOf();
 
